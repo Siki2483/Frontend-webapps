@@ -10,7 +10,7 @@ function Locations() {
         const res = await axios.get("/api/locations");
         setLocations(res.data);
       } catch (err) {
-        console.error("Greška pri dohvaćanju lokacija:", err.response?.data || err.message);
+        console.error("Error:", err.response?.data || err.message);
       }
     };
 
