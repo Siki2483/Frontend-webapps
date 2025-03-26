@@ -1,10 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Locations from "./components/Locations";
+import Locations from "./pages/Locations";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import LocationDetails from "./pages/LocationDetails";
 import RestaurantDetails from "./pages/RestaurantDetails";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/lokacije/:id" element={<LocationDetails />} />
         <Route path="/restorani/:id" element={<RestaurantDetails />} />
+        <Route path="/profil" element={<Profile />} />
 
       </Routes>
     </Router>

@@ -6,6 +6,10 @@ function ReviewForm({ type, id }) {
   const [rating, setRating] = useState(5);
   const [message, setMessage] = useState("");
 
+  if (!localStorage.getItem("token")) {
+    return <p style={{color: "gray"}}>You need to login to leave a review.</p>
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
