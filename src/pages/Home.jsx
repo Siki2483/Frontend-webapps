@@ -19,6 +19,7 @@ function Home() {
           <Link to="/restorani" className="btn">🍽️ Restaurants</Link>
           <Link to="/Register" className="btn"> Register</Link>
           <Link to="/Login" className="btn">Login</Link>
+          <Link to="/NightLife" className="btn">NightLife </Link>
 
           {isLoggedIn ? (
             <Link to="/profil" className="btn">👤 MyProfile</Link>
