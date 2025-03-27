@@ -1,0 +1,47 @@
+.home-container {
+    background-image: url("background.png");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    color: white;
+    position: relative;
+    text-align: center;
+  }
+  
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 100%;
+    width: 100%;
+    padding-top: 15vh;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .home-buttons .btn {
+    display: inline-block;
+    background-color: #ffffffcc;
+    color: #333;
+    padding: 0.7rem 1.2rem;
+    margin: 0.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  
+  .home-buttons .btn:hover {
+    background-color: #fff;
+    transform: scale(1.05);
+  }
+  

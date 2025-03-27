@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LogoutButton from "../components/LogoutButton";
 
@@ -6,13 +7,12 @@ import LogoutButton from "../components/LogoutButton";
 function Profile() {
   const [user, setUser] = useState(null);
   const [userReviews, setUserReviews] = useState({ locations: [], restaurants: [] });
-
-  <LogoutButton />
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      window.location.href = "/login";
+      navigate("/login");
       return;
     }
 
@@ -22,6 +22,7 @@ function Profile() {
           headers: { "x-auth-token": token },
         });
         setUser(userRes.data);
+        localStorage.setItem("isAdmin", userRes.data.isAdmin);
 
         const [locationsRes, restaurantsRes] = await Promise.all([
           axios.get("/api/locations"),
@@ -101,6 +102,7 @@ function Profile() {
       ))}
     </div>
   );
+  
 }
 
 export default Profile;
