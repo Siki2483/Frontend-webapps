@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Locations from "./pages/Locations";
 import Restaurants from "./pages/Restaurants";
 import Login from "./pages/Login";
@@ -15,6 +15,7 @@ import Home from "./pages/Home";
 import Nightlife from "./pages/Nightlife";
 import NightlifeDetails from "./pages/NightlifeDetails";
 import AddNightlife from "./pages/AddNightlife";
+import "./components/Navbar.css";
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("token");
@@ -24,14 +25,8 @@ const PrivateRoute = ({ children }) => {
 function App() {
   return (
     <Router>
-      <Navbar /> {}
+      <Navbar />
 
-      <Routes>
-        {}
-      </Routes>
-    </Router>,
-
-    <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/lokacije" element={<Locations />} />
@@ -41,8 +36,8 @@ function App() {
         <Route path="/lokacije/:id" element={<LocationDetails />} />
         <Route path="/restorani/:id" element={<RestaurantDetails />} />
         <Route path="/profil" element={<PrivateRoute><Profile /></PrivateRoute>} />
-        <Route path="/dodaj-lokaciju" element={<Admin><AddLocation /> </Admin> } />
-        <Route path="/dodaj-restoran" element={<Admin><AddRestaurant /></Admin> } />
+        <Route path="/dodaj-lokaciju" element={<Admin><AddLocation /></Admin>} />
+        <Route path="/dodaj-restoran" element={<Admin><AddRestaurant /></Admin>} />
         <Route path="/nightlife" element={<Nightlife />} />
         <Route path="/nightlife/:id" element={<NightlifeDetails />} />
         <Route path="/dodaj-nightlife" element={<Admin><AddNightlife /></Admin>} />

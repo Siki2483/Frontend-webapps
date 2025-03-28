@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -8,6 +10,8 @@ function Login() {
   });
 
   const [message, setMessage] = useState("");
+  
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -21,22 +25,26 @@ function Login() {
     try {
       const res = await axios.post("/api/auth/login", formData);
       localStorage.setItem("token", res.data.token);
-      setMessage("Prijava uspješna!");
+      setMessage("Signed In!");
+      navigate("/");
     } catch (err) {
       console.error(err.response?.data);
-      setMessage(err.response?.data.msg || "Greška pri prijavi.");
+      setMessage(err.response?.data.msg || "Error while singing in.");
     }
   };
 
   return (
-    <div>
-      <h2>Prijava</h2>
+    <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px" }}>
+      <h2>Sign in</h2>
       <form onSubmit={handleSubmit}>
         <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
         <br />
         <input type="password" name="password" placeholder="Lozinka" onChange={handleChange} required />
         <br />
-        <button type="submit">Prijavi se</button>
+        <button type="submit">Sign in</button>
+
+        <p style={{ marginTop: "10px" }}>Don't have an accout ? <Link to="/register">Register</Link></p>
+
       </form>
       {message && <p>{message}</p>}
     </div>
