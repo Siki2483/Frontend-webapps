@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -13,35 +14,16 @@ function Navbar() {
   };
 
   return (
-    <nav style={{ marginBottom: "1.5rem", padding: "1rem", background: "#f2f2f2", borderBottom: "1px solid #ccc" }}>
-      <Link to="/">🏠 Početna</Link> |{" "}
-      <Link to="/lokacije">🌍 Locations</Link> |{" "}
-      <Link to="/restorani">🍽️ Restaurants</Link> |{" "}
-
-      {isLoggedIn && (
-        <>
-          <Link to="/profil">👤 Profile</Link> |{" "}
-        </>
-      )}
-
-      {isAdmin && (
-        <>
-          <Link to="/dodaj-lokaciju">➕ Lokacija</Link> |{" "}
-          <Link to="/dodaj-restoran">➕ Restoran</Link> |{" "}
-        </>
-      )}
-
-      {isLoggedIn ? (
-        <button onClick={handleLogout} style={{ marginLeft: "1rem" }}>
-          Logout
-        </button>
-      ) : (
-        <>
-          <Link to="/login">Login</Link> |{" "}
-          <Link to="/register">Register</Link>
-        </>
-      )}
-    </nav>
+    <nav className="navbar">
+  <div className="navbar-logo">Tourist Info Pula</div>
+  <ul className="navbar-links">
+    <li><Link to="/">Home</Link></li>
+    <li><Link to="/lokacije">Lokacije</Link></li>
+    <li><Link to="/restorani">Restorani</Link></li>
+    <li><Link to="/nightlife">Nightlife</Link></li>
+    <li><Link to="/profil">Profil</Link></li>
+  </ul>
+</nav>
   );
 }
 

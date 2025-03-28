@@ -3,38 +3,66 @@ import axios from "axios";
 
 
 function AddLocation() {
-  const [form, setForm] = useState({ name: "", type: "", description: "", mapsLink: "" });
-  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({ 
+    name: "", 
+    type: "", 
+    description: "", 
+    mapsLink: "", 
+    image: "" 
+  });
+  const [preview, setPreview] = useState("");
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const data = new FormData();
+    data.append("image", file);
+
+    try {
+      const res = await axios.post("/api/upload", data);
+      setFormData({...formData, image: res.data.imagePath});
+      setPreview(res.data.imagePath);
+    } catch (err) {
+      console.error("Uploading error", err.response?.data || err.message);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/locations", form, {
+      await axios.post("/api/locations", formData, {
         headers: { "x-auth-token": localStorage.getItem("token") },
       });
-      setMessage("Location added successfully!");
-      setForm({ name: "", type: "", description: "", mapsLink: "" });
+      alert("Location added!");
+      setFormData({ name: "", type: "", description: "", mapsLink: "", image: ""});
+      setPreview("");
     } catch (err) {
-      setMessage(err.response?.data?.msg || "Error while adding .");
+      console.error("Error", err.response?.data || err.message);
     }
     
   };
 
   return (
-    <div>
-      <h2>Add new location</h2>
+    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
+      <h2>Add location</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Naziv" value={form.name} onChange={handleChange} required />
-        <input type="text" name="type" placeholder="Tip (npr. plaža, park...)" value={form.type} onChange={handleChange} required />
-        <textarea name="description" placeholder="Opis" value={form.description} onChange={handleChange} />
-        <input type="text" name="mapsLink" placeholder="Google Maps link" value={form.mapsLink} onChange={handleChange} />
-        <button type="submit">Add location</button>
+        <input name="name" placeholder="Naziv" value={formData.name} onChange={handleChange} required />
+        <br />
+        <input name="type" placeholder ="Tip" value={formData.type} onChange={handleChange} required />
+        <br />
+        <textarea name="description" placeholder="Opis" value={formData.description} onChange={handleChange} />
+        <br />
+        <input name="mapsLink" placeholder="Google Maps link" value={formData.mapsLink} onChange={handleChange} />
+        <br />
+        <input type="file" accept="image/*" onChange={handleImageUpload} />
+        {preview && <img src={preview} alt="preview" style={{ width: "100%", marginTop: "10px" }} />}
+        <br />
+        <button type="submit">Add</button>
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }

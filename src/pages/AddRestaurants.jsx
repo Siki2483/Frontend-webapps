@@ -2,37 +2,62 @@ import React, { useState } from "react";
 import axios from "axios";
 
 function AddRestaurant() {
-  const [form, setForm] = useState({ name: "", location: "", description: "", mapLinks: "" });
-  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({ 
+    name: "", 
+    location: "", 
+    description: "", 
+    image: "", 
+  });
+  const [preview, setPreview] = useState("");
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const data = new FormData();
+    data.append("image", file);
+
+    try {
+      const res = await axios.post("/api/upload", data);
+      setFormData({ ...formData, image: res.data.imagePath });
+      setPreview(res.data.imagePath);
+    } catch (err) {
+      console.error("Upload error:", err.response?.data || err.message);
+    }
+  };
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/restaurants", form, {
+      await axios.post("/api/restaurants", formData, {
         headers: { "x-auth-token": localStorage.getItem("token") },
       });
-      setMessage("Restaurant successfully added !");
-      setForm({ name: "", location: "", description: "", mapLinks: "" });
+      alert("Restaurant successfully added !");
+      setFormData({ name: "", location: "", description: "", mapLink: "" });
+      setPreview("");
     } catch (err) {
-      setMessage(err.response?.data?.msg || "Greška pri dodavanju.");
+      console.error("Error:", err.response?.data || err.message);
     }
   };
 
   return (
-    <div>
-      <h2>Add new restaurant</h2>
+    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
+      <h2>Dodaj Restoran</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Naziv" value={form.name} onChange={handleChange} required />
-        <input type="text" name="location" placeholder="Lokacija (mjesto)" value={form.location} onChange={handleChange} required />
-        <textarea name="description" placeholder="Opis" value={form.description} onChange={handleChange} />
-        <input type="text" name="mapLinks" placeholder="Google Maps link" value={form.mapLinks} onChange={handleChange} />
-        <button type="submit">Add restaurant</button>
+        <input name="name" placeholder="Naziv" value={formData.name} onChange={handleChange} required />
+        <br />
+        <textarea name="description" placeholder="Opis" value={formData.description} onChange={handleChange} />
+        <br />
+        <input name="location" placeholder="Google Maps link" value={formData.mapsLink} onChange={handleChange} />
+        <br />
+        <input type="file" accept="image/*" onChange={handleImageUpload} />
+        {preview && <img src={preview} alt="preview" style={{ width: "100%", marginTop: "10px" }} />}
+        <br />
+        <button type="submit">Dodaj</button>
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }
