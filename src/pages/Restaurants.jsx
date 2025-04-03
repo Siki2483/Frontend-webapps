@@ -31,14 +31,14 @@ function Restaurants() {
   }, []);
 
   return (
-    <div className="restaurant-container">
+    <div className="restaurant-page">
       <h2>Restaurants</h2>
-      <div className="restaurant-grid">
+      <div className="restaurant-container">
         {restaurants.map((rest) => {
           const avgRating = calculateAverageRating(rest.reviews);
           return (
             <div key={rest._id} className="restaurant-card">
-              <Link to={`/restorani/${rest._id}`}>
+              <Link to={`/restaurants/${rest._id}`}>
                 <h3>{rest.name}</h3>
               </Link>
 
@@ -72,7 +72,7 @@ function Restaurants() {
               )}
 
 
-              <Link to={`/restorani/${rest._id}`}>
+              <Link to={`/restaurants/${rest._id}`}>
                 <button className="review-button">Leave a review</button>
               </Link>
             </div>

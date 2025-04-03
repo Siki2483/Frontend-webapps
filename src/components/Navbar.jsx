@@ -19,7 +19,7 @@ function Navbar() {
       <div className="navbar-left">
         <Link to="/">🏠 Home</Link>
         <Link to="/lokacije">🌍 Locations</Link>
-        <Link to="/restorani">🍽 Restaurants</Link>
+        <Link to="/restaurants">🍽 Restaurants</Link>
         <Link to="/nightlife">🎉 Nightlife</Link>
       </div>
 

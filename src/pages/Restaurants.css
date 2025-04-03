@@ -1,7 +1,25 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial,sans-serif;
+  background: url(Pula_Aerial_View.jpg) ;
+  background-size: cover;
+}
+
+.restaurant-page {
+  padding-top: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
 .restaurant-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
   }
   
   .restaurant-grid {
@@ -11,13 +29,13 @@
   }
   
   .restaurant-card {
-    background-color: #ffffff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    width: 350px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
   
   .restaurant-card h3 {
@@ -32,6 +50,7 @@
   
   .map-button {
     padding: 8px 12px;
+    margin-right: 10px;
     background-color: #007bff;
     color: white;
     border: none;

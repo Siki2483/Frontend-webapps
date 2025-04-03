@@ -27,8 +27,8 @@ function RestaurantDetails() {
     <div>
       <h2>{restaurant.name}</h2>
       <p>{restaurant.description}</p>
-      <p><strong>Lokacija:</strong> {restaurant.location}</p>
-      <a href={restaurant.mapLinks} target="_blank" rel="noreferrer">Open in Google Maps</a>
+      <p><strong>Location:</strong> {restaurant.location}</p>
+      <a href={restaurant.mapLink} target="_blank" rel="noreferrer">Open in Google Maps</a>
 
       <hr />
       <ReviewList reviews={restaurant.reviews} />

@@ -30,11 +30,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/lokacije" element={<Locations />} />
-        <Route path="/restorani" element={<Restaurants />} />
+        <Route path="/restaurants" element={<Restaurants />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/lokacije/:id" element={<LocationDetails />} />
-        <Route path="/restorani/:id" element={<RestaurantDetails />} />
+        <Route path="/restaurants/:id" element={<RestaurantDetails />} />
         <Route path="/profil" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/dodaj-lokaciju" element={<Admin><AddLocation /></Admin>} />
         <Route path="/dodaj-restoran" element={<Admin><AddRestaurant /></Admin>} />
