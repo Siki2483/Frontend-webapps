@@ -7,7 +7,7 @@ function AddLocation() {
     name: "", 
     type: "", 
     description: "", 
-    mapsLink: "", 
+    locations: "", 
     image: "" 
   });
   const [preview, setPreview] = useState("");
@@ -50,13 +50,13 @@ function AddLocation() {
     <div style={{ maxWidth: "500px", margin: "0 auto" }}>
       <h2>Add location</h2>
       <form onSubmit={handleSubmit}>
-        <input name="name" placeholder="Naziv" value={formData.name} onChange={handleChange} required />
+        <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
         <br />
-        <input name="type" placeholder ="Tip" value={formData.type} onChange={handleChange} required />
+        <input name="type" placeholder ="Type" value={formData.type} onChange={handleChange} required />
         <br />
-        <textarea name="description" placeholder="Opis" value={formData.description} onChange={handleChange} />
+        <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
         <br />
-        <input name="mapsLink" placeholder="Google Maps link" value={formData.mapsLink} onChange={handleChange} />
+        <input name="locations" placeholder="Google Maps link" value={formData.locations} onChange={handleChange} />
         <br />
         <input type="file" accept="image/*" onChange={handleImageUpload} />
         {preview && <img src={preview} alt="preview" style={{ width: "100%", marginTop: "10px" }} />}

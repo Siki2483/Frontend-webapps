@@ -38,6 +38,15 @@ function Locations() {
             <h3>{loc.name} ({loc.type})</h3>
           </Link>
 
+
+          {loc.image && (
+              <img
+              src={`http://localhost:5000${loc.image}`}
+              alt={loc.name}
+              style={{ width: "100%", maxWidth: "500px", borderRadius: "8px", marginBottom: "10px" }}
+            />
+            )}
+
           {calculateAverageRating(loc.reviews) ? (
             <p>
               {renderStars(Number(calculateAverageRating(loc.reviews)))}{" "}
