@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "./Locations.css";
 
 function Locations() {
   const [locations, setLocations] = useState([]);
@@ -30,38 +31,55 @@ function Locations() {
   }, []);
 
   return (
-    <div>
-      <h2>Locations and Beaches</h2>
-      {locations.map((loc) => (
-        <div key={loc._id} style={{ marginBottom: "1rem" }}>
-          <Link to={`/lokacije/${loc._id}`}>
-            <h3>{loc.name} ({loc.type})</h3>
-          </Link>
+    <div className="locations-page">
+      <h2>Locations & Beaches</h2>
+      <div className="location-container">
+        {locations.map((loc) => {
+          const avgRating = calculateAverageRating(loc.reviews);
+          return (
+            <div key={loc._id} className="location-card">
+              <Link to={`/lokacije/${loc._id}`}>
+                <h3>{loc.name}</h3>
+              </Link>
 
+              <p>{loc.description}</p>
 
-          {loc.image && (
-              <img
-              src={`http://localhost:5000${loc.image}`}
-              alt={loc.name}
-              style={{ width: "100%", maxWidth: "500px", borderRadius: "8px", marginBottom: "10px" }}
-            />
-            )}
+              {loc.image && (
+                <img
+                  src={`http://localhost:5000${loc.image}`}
+                  alt={loc.name}
+                  className="location-image"
+                />
+              )}
 
-          {calculateAverageRating(loc.reviews) ? (
-            <p>
-              {renderStars(Number(calculateAverageRating(loc.reviews)))}{" "}
-              ({calculateAverageRating(loc.reviews)} / 5, {loc.reviews.length} recenzija)
-            </p>
-          ) : (
-            <p>No reviews yet</p>
-          )}
+              {avgRating ? (
+                <p>
+                  {renderStars(Number(avgRating))} ({avgRating} / 5, {loc.reviews.length} reviews)
+                </p>
+              ) : (
+                <p>There are no reviews yet</p>
+              )}
 
-          <p>{loc.description}</p>
-          {loc.mapsLink && (
-            <a href={loc.mapsLink} target="_blank" rel="noopener noreferrer">Otvori u Google Maps</a>
-          )}
-        </div>
-      ))}
+              <div className="location-buttons">
+                {loc.mapLink && (
+                  <a
+                    href={loc.mapLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="map-button"
+                  >
+                    Open in Google Maps
+                  </a>
+                )}
+
+                <Link to={`/lokacije/${loc._id}`}>
+                  <button className="review-button">Leave a review</button>
+                </Link>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

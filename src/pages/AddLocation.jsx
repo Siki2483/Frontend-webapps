@@ -7,7 +7,7 @@ function AddLocation() {
     name: "", 
     type: "", 
     description: "", 
-    locations: "", 
+    mapLink: "", 
     image: "" 
   });
   const [preview, setPreview] = useState("");
@@ -56,7 +56,7 @@ function AddLocation() {
         <br />
         <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
         <br />
-        <input name="locations" placeholder="Google Maps link" value={formData.locations} onChange={handleChange} />
+        <input name="mapLink" placeholder="Google Maps link" value={formData.mapLink} onChange={handleChange} />
         <br />
         <input type="file" accept="image/*" onChange={handleImageUpload} />
         {preview && <img src={preview} alt="preview" style={{ width: "100%", marginTop: "10px" }} />}
