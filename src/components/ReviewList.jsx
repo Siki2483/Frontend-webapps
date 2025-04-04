@@ -1,4 +1,5 @@
 import React from "react";
+import "./ReviewForm.css";
 
 function ReviewList({reviews}) {
     if (!reviews || reviews.lenght === 0) {
@@ -7,7 +8,6 @@ function ReviewList({reviews}) {
 
     return (
         <div>
-          <h4>Recenzije:</h4>
           {reviews.map((review) => (
             <div key={review._id} style={{ marginBottom: "1rem", borderBottom: "1px solid #ccc" }}>
               <strong>{review.user?.name || "Unknown user"}</strong>

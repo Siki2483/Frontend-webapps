@@ -1,11 +1,13 @@
 .nightlife-page {
-    background: url(nightlife.jpg);
-    background-position: center;
-    background-size: cover;
-    min-height: 100vh;
-    padding: 40px 20px 20px;
-    color: #fff;
-  }
+  background: url(nightlife.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 40px 20px 20px;
+  color: #fff;
+}
   
   .nightlife-container {
     display: flex;
