@@ -51,7 +51,7 @@ function AddRestaurant() {
       <form onSubmit={handleSubmit}>
         <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
         <br />
-        <input name ="type" placeholder ="Type" value = {formData.type} onChange = {handleChange} />
+        <input name ="type" placeholder ="Type" value = {formData.type} onChange = {handleChange} required />
         <br />
         <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
         <br />

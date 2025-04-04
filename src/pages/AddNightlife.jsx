@@ -6,7 +6,7 @@ function AddNightlife() {
     name: "",
     description: "",
     type: "",
-    mapsLink: "",
+    mapLink: "",
     image: "",
   });
   const [preview, setPreview] = useState("");
@@ -42,7 +42,7 @@ function AddNightlife() {
         name: "",
         description: "",
         type: "",
-        mapsLink: "",
+        mapLink: "",
         image: ""
       });
     } catch (err) {
@@ -56,11 +56,11 @@ function AddNightlife() {
       <form onSubmit={handleSubmit}>
         <input name="name" placeholder="Naziv" value={formData.name} onChange={handleChange} required />
         <br />
-        <input name="type" placeholder="Tip" value = {formData.type} onChange={handleChange} required />
+        <input name="type" placeholder="Tip" value = {formData.type} onChange={handleChange} />
         <br />
         <textarea name="description" placeholder="Opis" value={formData.description} onChange={handleChange} />
         <br />
-        <input name="mapsLink" placeholder="Google Maps link" value={formData.mapsLink} onChange={handleChange} />
+        <input name="mapLink" placeholder="Google Maps link" value={formData.mapLink} onChange={handleChange} />
         <br />
         <input type="file" accept="image/*" onChange={handleImageUpload} />
         {preview && <img src={preview} alt="preview" style={{ width: "100%", marginTop: "10px" }} />}
