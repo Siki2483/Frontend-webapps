@@ -6,6 +6,9 @@ import "./Nightlife.css";
 function Nightlife() {
   const [nightlifeList, setNightlifeList] = useState([]);
 
+  const [filterType, setFilterType] = useState("all");
+  const [sortOption, setSortOption] = useState("none");
+
   useEffect(() => {
     const fetchNightlife = async () => {
       try {
@@ -30,9 +33,50 @@ function Nightlife() {
     return "★".repeat(rounded) + "☆".repeat(5 - rounded);
   };
 
+  const getFilteredAndSortedList = () => {
+    let list = [...nightlifeList];
+  
+    if (filterType !== "all") {
+      list = list.filter((place) => place.type === filterType);
+    }
+  
+    if (sortOption === "rating-desc") {
+      list.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    } else if (sortOption === "rating-asc") {
+      list.sort((a, b) => (a.rating || 0) - (b.rating || 0));
+    } else if (sortOption === "name") {
+      list.sort((a, b) => a.name.localeCompare(b.name));
+    }
+  
+    return list;
+  };
+
   return (
     <div className="nightlife-page">
       <h2>Nightlife in Pula</h2>
+
+      <div className = "filter-sort-bar">
+        <div className = "select-wrapper">
+          <label>Filter by type:</label>
+        <select onChange={(e) => setFilterType(e.target.value)} value={filterType}>
+          <option value="all">All Types</option>
+          <option value="nightclub">Nightclub</option>
+          <option value="caffebar">Caffebar</option>
+          <option value="beachbar">Beachbar</option>
+        </select>
+        </div>
+
+        <div className = "select-wrapper">
+          <label>Sort by:</label>
+          <select onChange={(e) => setSortOption(e.target.value)} value={sortOption}>
+            <option value="none">No Sorting</option>
+            <option value="rating-desc">Top Rated</option>
+            <option value="rating-asc">Lowest Rated</option>
+            <option value="name">A-Z</option>
+          </select>
+        </div>
+        </div>
+
       <div className="nightlife-container">
         {nightlifeList.map((place) => {
           const avgRating = calculateAverageRating(place.reviews);

@@ -9,6 +9,10 @@ function Profile() {
   const [user, setUser] = useState(null);
   const [userReviews, setUserReviews] = useState({ locations: [], restaurants: [], nightlife: [] });
   const navigate = useNavigate();
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [changeMessage, setChangeMessage] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -130,8 +134,59 @@ function Profile() {
               ))}
             </div>
           ))}
+          <div className="change-password-section">
+  <h3>Change Password</h3>
+  <input
+    type="password"
+    placeholder="Current Password"
+    value={currentPassword}
+    onChange={(e) => setCurrentPassword(e.target.value)}
+    required
+  />
+  <input
+    type="password"
+    placeholder="New Password"
+    value={newPassword}
+    onChange={(e) => setNewPassword(e.target.value)}
+    required
+  />
+  <input
+    type="password"
+    placeholder="Confirm New Password"
+    value={confirmPassword}
+    onChange={(e) => setConfirmPassword(e.target.value)}
+    required
+  />
+  <button
+    onClick={async () => {
+      if (newPassword !== confirmPassword) {
+        setChangeMessage("New passwords do not match.");
+        return;
+      }
+
+      try {
+        await axios.post(
+          "/api/auth/change-password",
+          { currentPassword, newPassword },
+          { headers: { "x-auth-token": localStorage.getItem("token") } }
+        );
+        setChangeMessage("Password changed successfully!");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } catch (err) {
+        setChangeMessage(err.response?.data?.msg || "Error changing password.");
+      }
+    }}
+    className="change-password-btn"
+  >
+    Change Password
+  </button>
+  {changeMessage && <p>{changeMessage}</p>}
+</div>
         </div>
       </div>
+      
     </div>
   );
 }

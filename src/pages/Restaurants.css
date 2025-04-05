@@ -1,9 +1,13 @@
 .restaurant-page {
+  min-height: 100vh;
   margin: 0;
   padding: 0;
   font-family: Arial,sans-serif;
   background: url(Pula_Aerial_View.jpg) ;
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   padding-top: 40px;
   padding-left: 30px;
   padding-right: 30px;

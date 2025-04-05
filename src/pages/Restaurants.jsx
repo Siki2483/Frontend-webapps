@@ -61,6 +61,7 @@ function Restaurants() {
             <option value="bbq">BBQ</option>
             <option value="seafood">Seafood</option>
             <option value="burger">Burger</option>
+            <option value="Konoba">Konoba</option>
             <option value="other">Other</option>
           </select>
         </div>
