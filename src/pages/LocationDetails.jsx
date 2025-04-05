@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
+import "./Details.css";
 
 function LocationDetails() {
   const { id } = useParams();
@@ -24,15 +25,19 @@ function LocationDetails() {
   if (!location) return <p>Loading...</p>;
 
   return (
-    <div>
-      <h2>{location.name}</h2>
-      <p>{location.description}</p>
-      <p><strong>Tip:</strong> {location.type}</p>
-      <a href={location.mapsLink} target="_blank" rel="noreferrer">Open in Google Maps</a>
+    <div className="review-details-page">
+      <div className="review-card">
+        <h2>{location.name}</h2>
+        <p>{location.description}</p>
+        <p><strong>Tip:</strong> {location.type}</p>
+        <a href={location.mapsLink} target="_blank" rel="noreferrer">Open in Google Maps</a>
+      </div>
 
-      <hr />
-      <ReviewList reviews={location.reviews} />
-      <ReviewForm type="locations" id={id} />
+      <div className="review-card">
+        <h3>Reviews: </h3>
+        <ReviewList reviews={location.reviews} />
+        <ReviewForm type="locations" id={id} />
+      </div>
     </div>
   );
 }

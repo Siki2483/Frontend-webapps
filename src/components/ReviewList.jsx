@@ -11,7 +11,7 @@ function ReviewList({reviews}) {
           {reviews.map((review) => (
             <div key={review._id} style={{ marginBottom: "1rem", borderBottom: "1px solid #ccc" }}>
               <strong>{review.user?.name || "Unknown user"}</strong>
-              <p>Ocjena: {review.rating} / 5</p>
+              <p>Review: {review.rating} / 5</p>
               <p>{review.text}</p>
               <small>{new Date(review.createdAt).toLocaleDateString()}</small>
             </div>

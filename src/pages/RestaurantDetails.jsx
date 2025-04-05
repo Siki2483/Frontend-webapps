@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
-import "./RestorauntDetails.css";
+import "./Details.css";
 
 function RestaurantDetails() {
   const { id } = useParams();

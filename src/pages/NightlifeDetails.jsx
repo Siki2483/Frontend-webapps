@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
+import "./Details.css";
 
 function NightlifeDetails() {
   const { id } = useParams();
@@ -24,15 +25,18 @@ function NightlifeDetails() {
   if (!nightlife) return <p>Loading...</p>;
 
   return (
-    <div>
-      <h2>{nightlife.name}</h2>
-      <p>{nightlife.description}</p>
-      <p><strong>Location:</strong> {nightlife.location}</p>
-      <a href={nightlife.mapLink} target="_blank" rel="noreferrer">Open in Google Maps</a>
+    <div className ="review-details-page">
+      <div className ="review-card">
+        <h2>{nightlife.name}</h2>
+        <p>{nightlife.description}</p>
+        <p><strong>Location:</strong> {nightlife.location}</p>
+        <a href={nightlife.mapLink} target="_blank" rel="noreferrer">Open in Google Maps</a>
+      </div>
 
-      <hr />
-      <ReviewList reviews={nightlife.reviews} />
-      <ReviewForm type="nightlife" id={id} />
+      <div className = "review-card">
+        <ReviewList reviews={nightlife.reviews} />
+        <ReviewForm type="nightlife" id={id} />
+      </div>
     </div>
   );
 }

@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "./Restaurants.css"; 
+import "./Restaurants.css";
 
 function Restaurants() {
   const [restaurants, setRestaurants] = useState([]);
+  const [filterType, setFilterType] = useState("all");
+  const [sortOption, setSortOption] = useState("none");
 
   const calculateAverageRating = (reviews) => {
-    if (!reviews || reviews.length === 0) return null;
+    if (!reviews || reviews.length === 0) return 0;
     const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-    return (sum / reviews.length).toFixed(1);
+    return sum / reviews.length;
   };
 
   const renderStars = (rating) => {
@@ -21,18 +23,59 @@ function Restaurants() {
     const fetchRestaurants = async () => {
       try {
         const res = await axios.get("/api/restaurants");
-        setRestaurants(res.data);
+        let data = res.data;
+
+        // Filter by type
+        if (filterType !== "all") {
+          data = data.filter((rest) => rest.type === filterType);
+        }
+
+        // Sort by option
+        if (sortOption === "rating-desc") {
+          data.sort((a, b) => calculateAverageRating(b.reviews) - calculateAverageRating(a.reviews));
+        } else if (sortOption === "rating-asc") {
+          data.sort((a, b) => calculateAverageRating(a.reviews) - calculateAverageRating(b.reviews));
+        } else if (sortOption === "name") {
+          data.sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        setRestaurants(data);
       } catch (err) {
         console.error("Error:", err.response?.data || err.message);
       }
     };
 
     fetchRestaurants();
-  }, []);
+  }, [filterType, sortOption]);
 
   return (
     <div className="restaurant-page">
       <h2>Restaurants</h2>
+
+      <div className = "filter-sort-bar">
+        <div className = "select-wrapper">
+          <label>Filter by type:</label>
+          <select onChange={(e) => setFilterType(e.target.value)} value={filterType}>
+            <option value="all">All Types</option>
+            <option value="pizza">Pizzeria</option>
+            <option value="bbq">BBQ</option>
+            <option value="seafood">Seafood</option>
+            <option value="burger">Burger</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div className = "select-wrapper">
+          <label>Sort by:</label>
+         <select onChange={(e) => setSortOption(e.target.value)} value={sortOption}>
+            <option value="none">No Sorting</option>
+            <option value="rating-desc">Top Rated</option>
+           <option value="rating-asc">Lowest Rated</option>
+            <option value="name">A-Z</option>
+          </select>
+        </div>
+      </div>
+
       <div className="restaurant-container">
         {restaurants.map((rest) => {
           const avgRating = calculateAverageRating(rest.reviews);
@@ -54,7 +97,7 @@ function Restaurants() {
 
               {avgRating ? (
                 <p>
-                  {renderStars(Number(avgRating))} ({avgRating} / 5, {rest.reviews.length} review)
+                  {renderStars(avgRating)} ({avgRating.toFixed(1)} / 5, {rest.reviews.length} review)
                 </p>
               ) : (
                 <p>There are no reviews yet</p>
@@ -70,7 +113,6 @@ function Restaurants() {
                   Open in Google Maps
                 </a>
               )}
-
 
               <Link to={`/restaurants/${rest._id}`}>
                 <button className="review-button">Leave a review</button>

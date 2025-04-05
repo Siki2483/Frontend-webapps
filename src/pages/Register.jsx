@@ -1,32 +1,51 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Auth.css";
 
 function Register() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
+    confirmPassword: ""
   });
 
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: value
     }));
+  
+    if (name === "password") {
+      setIsPasswordValid(value.length >= 8);
+    }
   };
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setMessage("Passwords don't match.");
+      return;
+    }
+
     try {
-      const res = await axios.post("/api/auth/register", formData);
+      const { name, email, password } = formData;
+
+      const res = await axios.post("/api/auth/register", {
+        name,
+        email,
+        password
+      });
+
       localStorage.setItem("token", res.data.token);
       setMessage("Registration complete!");
-      navigate ("/");
+      navigate("/");
     } catch (err) {
       console.error(err.response?.data);
       setMessage(err.response?.data.msg || "Error.");
@@ -34,18 +53,21 @@ function Register() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px" }}>
-      <h2>Create an account</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Ime" onChange={handleChange} required />
-        <br />
+    <div className="auth-page">
+      <form className="auth-container" onSubmit={handleSubmit}>
+        <h2>Create an account</h2>
+        <input type="text" name="name" placeholder="Name" onChange={handleChange} required />
         <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-        <br />
-        <input type="password" name="password" placeholder="Lozinka" onChange={handleChange} required />
-        <br />
+        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+        {!isPasswordValid && (
+          <p style={{ color: "red", fontSize: "0.9rem" }}>
+            Password must be at least 8 characters long.
+          </p>
+        )}
+        <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} required />
         <button type="submit">Create</button>
+        {message && <p>{message}</p>}
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }
