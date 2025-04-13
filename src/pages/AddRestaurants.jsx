@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const API_BASE = process.env.REACT_APP_API_BASE;
+
 function AddRestaurant() {
   const [formData, setFormData] = useState({ 
     name: "", 
@@ -12,16 +14,15 @@ function AddRestaurant() {
   const [preview, setPreview] = useState("");
 
   const handleImageUpload = async (e) => {
-    
     const file = e.target.files[0];
     if (!file) return;
     const data = new FormData();
     data.append("image", file);
 
     try {
-      const res = await axios.post("/api/upload", data);
+      const res = await axios.post(`${API_BASE}/api/upload`, data);
       setFormData({ ...formData, image: res.data.imagePath });
-      setPreview(res.data.imagePath);
+      setPreview(`${API_BASE}${res.data.imagePath}`);
     } catch (err) {
       console.error("Upload error:", err.response?.data || err.message);
     }
@@ -34,11 +35,11 @@ function AddRestaurant() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/restaurants", formData, {
+      await axios.post(`${API_BASE}/api/restaurants`, formData, {
         headers: { "x-auth-token": localStorage.getItem("token") },
       });
-      alert("Restaurant successfully added !");
-      setFormData({ name: "", description: "", location: "" });
+      alert("Restaurant successfully added!");
+      setFormData({ name: "", type: "", description: "", mapLink: "", image: "" });
       setPreview("");
     } catch (err) {
       console.error("Error:", err.response?.data || err.message);
@@ -51,14 +52,14 @@ function AddRestaurant() {
       <form onSubmit={handleSubmit}>
         <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
         <br />
-        <input name ="type" placeholder ="Type" value = {formData.type} onChange = {handleChange} required />
+        <input name="type" placeholder="Type" value={formData.type} onChange={handleChange} required />
         <br />
         <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
         <br />
         <input name="mapLink" placeholder="Google Maps link" value={formData.mapLink} onChange={handleChange} />
         <br />
         <input type="file" accept="image/*" onChange={handleImageUpload} />
-        {preview && <img src={`http://localhost:5000${preview}`} alt="preview" style={{ width: "100%", marginTop: "10px" }} />}
+        {preview && <img src={preview} alt="preview" style={{ width: "100%", marginTop: "10px" }} />}
         <br />
         <button type="submit">Add</button>
       </form>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const API_BASE = process.env.REACT_APP_API_BASE;
 
 function AddLocation() {
   const [formData, setFormData] = useState({ 
@@ -19,13 +20,14 @@ function AddLocation() {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
     const data = new FormData();
     data.append("image", file);
 
     try {
-      const res = await axios.post("/api/upload", data);
-      setFormData({...formData, image: res.data.imagePath});
-      setPreview(res.data.imagePath);
+      const res = await axios.post(`${API_BASE}/api/upload`, data);
+      setFormData({ ...formData, image: res.data.imagePath });
+      setPreview(`${API_BASE}${res.data.imagePath}`);
     } catch (err) {
       console.error("Uploading error", err.response?.data || err.message);
     }
@@ -34,16 +36,15 @@ function AddLocation() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/locations", formData, {
+      await axios.post(`${API_BASE}/api/locations`, formData, {
         headers: { "x-auth-token": localStorage.getItem("token") },
       });
       alert("Location added!");
-      setFormData({ name: "", type: "", description: "", mapsLink: "", image: ""});
+      setFormData({ name: "", type: "", description: "", mapLink: "", image: "" });
       setPreview("");
     } catch (err) {
       console.error("Error", err.response?.data || err.message);
     }
-    
   };
 
   return (
@@ -52,7 +53,7 @@ function AddLocation() {
       <form onSubmit={handleSubmit}>
         <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
         <br />
-        <input name="type" placeholder ="Type" value={formData.type} onChange={handleChange} required />
+        <input name="type" placeholder="Type" value={formData.type} onChange={handleChange} required />
         <br />
         <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
         <br />

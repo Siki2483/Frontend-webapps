@@ -166,7 +166,7 @@ function Profile() {
 
       try {
         await axios.post(
-          "/api/auth/change-password",
+          `${process.env.REACT_APP_API_BASE}/api/auth/change-password`,        
           { currentPassword, newPassword },
           { headers: { "x-auth-token": localStorage.getItem("token") } }
         );

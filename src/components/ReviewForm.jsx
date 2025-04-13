@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./ReviewForm.css";
 
+const API_BASE = process.env.REACT_APP_API_BASE;
+
 function ReviewForm({ type, id }) {
   const [text, setText] = useState("");
   const [rating, setRating] = useState(5);
@@ -15,7 +17,7 @@ function ReviewForm({ type, id }) {
     e.preventDefault();
     try {
       await axios.post(
-        `/api/${type}/${id}/reviews`,
+        `${API_BASE}/api/${type}/${id}/reviews`,
         { text, rating },
         {
           headers: {

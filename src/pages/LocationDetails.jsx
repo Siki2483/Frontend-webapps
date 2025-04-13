@@ -5,6 +5,8 @@ import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
 import "./Details.css";
 
+const API_BASE = process.env.REACT_APP_API_BASE;
+
 function LocationDetails() {
   const { id } = useParams();
   const [location, setLocation] = useState(null);
@@ -12,7 +14,7 @@ function LocationDetails() {
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const res = await axios.get(`/api/locations/${id}`);
+        const res = await axios.get(`${API_BASE}/api/locations/${id}`);
         setLocation(res.data);
       } catch (err) {
         console.error("Error:", err);
@@ -30,11 +32,11 @@ function LocationDetails() {
         <h2>{location.name}</h2>
         <p>{location.description}</p>
         <p><strong>Tip:</strong> {location.type}</p>
-        <a href={location.mapsLink} target="_blank" rel="noreferrer">Open in Google Maps</a>
+        <a href={location.mapLink} target="_blank" rel="noreferrer">Open in Google Maps</a>
       </div>
 
       <div className="review-card">
-        <h3>Reviews: </h3>
+        <h3>Reviews:</h3>
         <ReviewList reviews={location.reviews} />
         <ReviewForm type="locations" id={id} />
       </div>

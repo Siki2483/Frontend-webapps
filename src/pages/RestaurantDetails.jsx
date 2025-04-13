@@ -5,6 +5,8 @@ import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
 import "./Details.css";
 
+const API_BASE = process.env.REACT_APP_API_BASE;
+
 function RestaurantDetails() {
   const { id } = useParams();
   const [restaurant, setRestaurant] = useState(null);
@@ -12,7 +14,7 @@ function RestaurantDetails() {
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
-        const res = await axios.get(`/api/restaurants/${id}`);
+        const res = await axios.get(`${API_BASE}/api/restaurants/${id}`);
         setRestaurant(res.data);
       } catch (err) {
         console.error("Error:", err);
@@ -29,17 +31,16 @@ function RestaurantDetails() {
       <div className="review-card">
         <h2>{restaurant.name}</h2>
         <p>{restaurant.description}</p>
-        <p><strong>Location:</strong></p>
+        <p><strong>Tip:</strong> {restaurant.type}</p>
         <a href={restaurant.mapLink} target="_blank" rel="noreferrer">Open in Google Maps</a>
-    </div>
+      </div>
 
-    <div className="review-card">
-      <h3>Reviews:</h3>
-      <ReviewList reviews={restaurant.reviews} />
-      <ReviewForm type="restaurants" id={id} />
+      <div className="review-card">
+        <h3>Reviews:</h3>
+        <ReviewList reviews={restaurant.reviews} />
+        <ReviewForm type="restaurants" id={id} />
+      </div>
     </div>
-  </div>
-
   );
 }
 

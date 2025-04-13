@@ -12,7 +12,7 @@ function Nightlife() {
   useEffect(() => {
     const fetchNightlife = async () => {
       try {
-        const res = await axios.get("/api/nightlife");
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE}/api/nightlife`);
         setNightlifeList(res.data);
       } catch (err) {
         console.error("Error:", err.response?.data || err.message);

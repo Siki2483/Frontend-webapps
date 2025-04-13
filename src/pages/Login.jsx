@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Auth.css";
+
+const API_BASE = process.env.REACT_APP_API_BASE;
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -11,7 +12,6 @@ function Login() {
   });
 
   const [message, setMessage] = useState("");
-  
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,13 +24,13 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/login", formData);
+      const res = await axios.post(`${API_BASE}/api/auth/login`, formData);
       localStorage.setItem("token", res.data.token);
       setMessage("Signed In!");
       navigate("/");
     } catch (err) {
       console.error(err.response?.data);
-      setMessage(err.response?.data.msg || "Error while singing in.");
+      setMessage(err.response?.data.msg || "Error while signing in.");
     }
   };
 

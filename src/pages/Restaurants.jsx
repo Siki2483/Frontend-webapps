@@ -22,15 +22,15 @@ function Restaurants() {
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const res = await axios.get("/api/restaurants");
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE}/api/restaurants`);
         let data = res.data;
 
-        // Filter by type
+       
         if (filterType !== "all") {
           data = data.filter((rest) => rest.type === filterType);
         }
 
-        // Sort by option
+        
         if (sortOption === "rating-desc") {
           data.sort((a, b) => calculateAverageRating(b.reviews) - calculateAverageRating(a.reviews));
         } else if (sortOption === "rating-asc") {

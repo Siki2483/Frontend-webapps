@@ -23,7 +23,7 @@ function Locations() {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const res = await axios.get("/api/locations");
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE}/api/locations`);
         setLocations(res.data);
 
         const filtered = res.data.filter((loc) =>
