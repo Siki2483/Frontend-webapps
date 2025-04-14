@@ -23,16 +23,16 @@ function Profile() {
 
     const fetchProfile = async () => {
       try {
-        const userRes = await axios.get("/api/auth/user", {
+        const userRes = await axios.get(`${process.env.REACT_APP_API_BASE}/api/auth/user`, {
           headers: { "x-auth-token": token },
         });
         setUser(userRes.data);
         localStorage.setItem("isAdmin", userRes.data.isAdmin);
 
         const [locationsRes, restaurantsRes, nightlifeRes ] = await Promise.all([
-          axios.get("/api/locations"),
-          axios.get("/api/restaurants"),
-          axios.get("/api/nightlife")
+          axios.get(`${process.env.REACT_APP_API_BASE}/api/locations`),
+          axios.get(`${process.env.REACT_APP_API_BASE}/api/restaurants`),
+          axios.get(`${process.env.REACT_APP_API_BASE}/api/nightlife`)
         ]);
 
         const userId = userRes.data._id;

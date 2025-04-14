@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./Auth.css";
 
-const API_BASE = process.env.REACT_APP_API_BASE;
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -24,7 +23,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_BASE}/api/auth/login`, formData);
+      const res = await axios.post(`${process.env.REACT_APP_API_BASE}/api/auth/login`, formData);
       localStorage.setItem("token", res.data.token);
       setMessage("Signed In!");
       navigate("/");

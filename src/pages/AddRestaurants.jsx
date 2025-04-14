@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_BASE = process.env.REACT_APP_API_BASE;
 
 function AddRestaurant() {
   const [formData, setFormData] = useState({ 
@@ -20,9 +19,9 @@ function AddRestaurant() {
     data.append("image", file);
 
     try {
-      const res = await axios.post(`${API_BASE}/api/upload`, data);
+      const res = await axios.post(`${process.env.REACT_APP_API_BASE}/api/upload`, data);
       setFormData({ ...formData, image: res.data.imagePath });
-      setPreview(`${API_BASE}${res.data.imagePath}`);
+      setPreview(`${process.env.REACT_APP_API_BASE}${res.data.imagePath}`);
     } catch (err) {
       console.error("Upload error:", err.response?.data || err.message);
     }
@@ -35,7 +34,7 @@ function AddRestaurant() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE}/api/restaurants`, formData, {
+      await axios.post(`${process.env.REACT_APP_API_BASE}/api/restaurants`, formData, {
         headers: { "x-auth-token": localStorage.getItem("token") },
       });
       alert("Restaurant successfully added!");

@@ -5,7 +5,6 @@ import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
 import "./Details.css";
 
-const API_BASE = process.env.REACT_APP_API_BASE;
 
 function RestaurantDetails() {
   const { id } = useParams();
@@ -14,7 +13,7 @@ function RestaurantDetails() {
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/restaurants/${id}`);
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE}/api/restaurants/${id}`);
         setRestaurant(res.data);
       } catch (err) {
         console.error("Error:", err);

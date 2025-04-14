@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_BASE = process.env.REACT_APP_API_BASE;
 
 function AddLocation() {
   const [formData, setFormData] = useState({ 
@@ -25,9 +24,9 @@ function AddLocation() {
     data.append("image", file);
 
     try {
-      const res = await axios.post(`${API_BASE}/api/upload`, data);
+      const res = await axios.post(`${process.env.REACT_APP_API_BASE}/api/upload`, data);
       setFormData({ ...formData, image: res.data.imagePath });
-      setPreview(`${API_BASE}${res.data.imagePath}`);
+      setPreview(`${process.env.REACT_APP_API_BASE}${res.data.imagePath}`);
     } catch (err) {
       console.error("Uploading error", err.response?.data || err.message);
     }
@@ -36,7 +35,7 @@ function AddLocation() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE}/api/locations`, formData, {
+      await axios.post(`${process.env.REACT_APP_API_BASE}/api/locations`, formData, {
         headers: { "x-auth-token": localStorage.getItem("token") },
       });
       alert("Location added!");

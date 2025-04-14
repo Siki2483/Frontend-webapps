@@ -5,7 +5,6 @@ import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
 import "./Details.css";
 
-const API_BASE = process.env.REACT_APP_API_BASE;
 
 function LocationDetails() {
   const { id } = useParams();
@@ -14,7 +13,7 @@ function LocationDetails() {
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/locations/${id}`);
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE}/api/locations/${id}`);
         setLocation(res.data);
       } catch (err) {
         console.error("Error:", err);
