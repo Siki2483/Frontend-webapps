@@ -1,17 +1,27 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
-  const token = localStorage.getItem("token");
-  const isAdmin = localStorage.getItem("isAdmin") === "true";
-
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin") === "true");
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation(); 
+
+  
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    setIsAdmin(localStorage.getItem("isAdmin") === "true");
+  }, [location]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("isAdmin");
-    window.location.href = "/";
+    setToken(null);
+    setIsAdmin(false);
+    navigate("/");
   };
 
   return (
@@ -31,7 +41,6 @@ function Navbar() {
             onMouseLeave={() => setShowDropdown(false)}
           >
             <Link to="/profil">👤 My Profile</Link>
-
 
             {isAdmin && showDropdown && (
               <div className="dropdown-content">

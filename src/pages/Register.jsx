@@ -35,12 +35,13 @@ function Register() {
     }
 
     try {
-      const { name, email, password } = formData;
+      const { name, email, password, confirmPassword } = formData;
 
       const res = await axios.post(`${process.env.REACT_APP_API_BASE}/api/auth/register`, {
         name,
         email,
-        password
+        password,
+        confirmPassword
       });
 
       localStorage.setItem("token", res.data.token);
