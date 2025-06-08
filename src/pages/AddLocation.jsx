@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./Add.css";
 
 
 function AddLocation() {
@@ -47,9 +48,9 @@ function AddLocation() {
   };
 
   return (
-    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
+    <div className="add-item-page">
+      <form className="add-item-container" onSubmit={handleSubmit}>
       <h2>Add location</h2>
-      <form onSubmit={handleSubmit}>
         <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
         <br />
         <input name="type" placeholder="Type" value={formData.type} onChange={handleChange} required />

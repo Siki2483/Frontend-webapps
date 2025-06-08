@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./Add.css";
 
 const API_BASE = process.env.REACT_APP_API_BASE;
 
@@ -55,9 +56,9 @@ function AddNightlife() {
   };
 
   return (
-    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
+    <div className="add-item-page">
+      <form className="add-item-container" onSubmit={handleSubmit}>
       <h2>Add Nightlife</h2>
-      <form onSubmit={handleSubmit}>
         <input name="name" placeholder="Naziv" value={formData.name} onChange={handleChange} required />
         <br />
         <input name="type" placeholder="Tip" value={formData.type} onChange={handleChange} />

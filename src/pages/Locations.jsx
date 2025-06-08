@@ -5,43 +5,14 @@ import "./Locations.css";
 
 function Locations() {
   const [locations, setLocations] = useState([]);
-
   const [filterType, setFilterType] = useState("all");
   const [sortOption, setSortOption] = useState("none");
-
-  const calculateAverageRating = (reviews) => {
-    if (!reviews || reviews.length === 0) return null;
-    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-    return (sum / reviews.length).toFixed(1);
-  };
-
-  const renderStars = (rating) => {
-    const rounded = Math.round(rating);
-    return "★".repeat(rounded) + "☆".repeat(5 - rounded);
-  };
 
   useEffect(() => {
     const fetchLocations = async () => {
       try {
         const res = await axios.get(`${process.env.REACT_APP_API_BASE}/api/locations`);
         setLocations(res.data);
-
-        const filtered = res.data.filter((loc) =>
-          filterType === "all" ? true : loc.type === filterType
-        );
-        
-        const sorted = [...filtered].sort((a, b) => {
-          if (sortOption === "rating-desc") {
-            return (b.rating || 0) - (a.rating || 0);
-          } else if (sortOption === "rating-asc") {
-            return (a.rating || 0) - (b.rating || 0);
-          } else if (sortOption === "name") {
-            return a.name.localeCompare(b.name);
-          } else {
-            return 0;
-          }
-        });
-
       } catch (err) {
         console.error("Error:", err.response?.data || err.message);
       }
@@ -50,12 +21,41 @@ function Locations() {
     fetchLocations();
   }, []);
 
+  const calculateAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return sum / reviews.length;
+  };
+
+  const renderStars = (rating) => {
+    const rounded = Math.round(rating);
+    return "★".repeat(rounded) + "☆".repeat(5 - rounded);
+  };
+
+  const getFilteredAndSortedList = () => {
+    let list = [...locations];
+
+    if (filterType !== "all") {
+      list = list.filter((loc) => loc.type.toLowerCase() === filterType.toLowerCase());
+    }
+
+    if (sortOption === "rating-desc") {
+      list.sort((a, b) => calculateAverageRating(b.reviews) - calculateAverageRating(a.reviews));
+    } else if (sortOption === "rating-asc") {
+      list.sort((a, b) => calculateAverageRating(a.reviews) - calculateAverageRating(b.reviews));
+    } else if (sortOption === "name") {
+      list.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    return list;
+  };
+
   return (
     <div className="locations-page">
       <h2>Locations & Beaches</h2>
 
-      <div className = "filter-sort-bar">
-        <div className = "select-wrapper">
+      <div className="filter-sort-bar">
+        <div className="select-wrapper">
           <label>Filter by type:</label>
           <select onChange={(e) => setFilterType(e.target.value)} value={filterType}>
             <option value="all">All Types</option>
@@ -64,7 +64,7 @@ function Locations() {
           </select>
         </div>
 
-        <div className = "select-wrapper">
+        <div className="select-wrapper">
           <label>Sort by:</label>
           <select onChange={(e) => setSortOption(e.target.value)} value={sortOption}>
             <option value="none">No Sorting</option>
@@ -76,7 +76,7 @@ function Locations() {
       </div>
 
       <div className="location-container">
-        {locations.map((loc) => {
+        {getFilteredAndSortedList().map((loc) => {
           const avgRating = calculateAverageRating(loc.reviews);
           return (
             <div key={loc._id} className="location-card">
@@ -88,7 +88,7 @@ function Locations() {
 
               {loc.image && (
                 <img
-                  src={`http://localhost:5000${loc.image}`}
+                  src={`https://backend-webapps.onrender.com${loc.image}`}
                   alt={loc.name}
                   className="location-image"
                 />
@@ -96,7 +96,7 @@ function Locations() {
 
               {avgRating ? (
                 <p>
-                  {renderStars(Number(avgRating))} ({avgRating} / 5, {loc.reviews.length} reviews)
+                  {renderStars(avgRating)} ({avgRating.toFixed(1)} / 5, {loc.reviews.length} reviews)
                 </p>
               ) : (
                 <p>There are no reviews yet</p>

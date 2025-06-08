@@ -78,7 +78,7 @@ function Nightlife() {
         </div>
 
       <div className="nightlife-container">
-        {nightlifeList.map((place) => {
+      {getFilteredAndSortedList().map((place) => {
           const avgRating = calculateAverageRating(place.reviews);
           return (
             <div key={place._id} className="nightlife-card">
@@ -89,7 +89,7 @@ function Nightlife() {
 
               {place.image && (
                 <img
-                  src={`http://localhost:5000${place.image}`}
+                  src={`https://backend-webapps.onrender.com${place.image}`}
                   alt={place.name}
                   className="nightlife-image"
                 />
