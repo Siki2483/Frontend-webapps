@@ -16,6 +16,7 @@ import Nightlife from "./pages/Nightlife";
 import NightlifeDetails from "./pages/NightlifeDetails";
 import AddNightlife from "./pages/AddNightlife";
 import "./components/Navbar.css";
+import RecommendedNearYou from "./components/RecommendedNearYou";
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("token");
@@ -41,6 +42,7 @@ function App() {
         <Route path="/nightlife" element={<Nightlife />} />
         <Route path="/nightlife/:id" element={<NightlifeDetails />} />
         <Route path="/dodaj-nightlife" element={<Admin><AddNightlife /></Admin>} />
+        <Route path="/reccomendednearyou" element={<RecommendedNearYou />} />
       </Routes>
     </Router>
   );
