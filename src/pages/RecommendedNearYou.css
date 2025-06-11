@@ -1,0 +1,76 @@
+.recommended-container {
+  padding: 20px;
+  margin-top: 80px; /* zbog fixed navbar */
+}
+
+.recommended-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.recommended-section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 30px 0 10px;
+}
+
+.recommended-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.recommended-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.recommended-card:hover {
+  transform: scale(1.02);
+}
+
+.recommended-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.recommended-card-content {
+  padding: 15px;
+}
+
+.recommended-card-content h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.recommended-card-content p {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.recommended-card-content a {
+  display: inline-block;
+  margin-top: 10px;
+  font-weight: 500;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 100px;
+}
+
+.loading-message {
+  color: #333;
+  text-align: center;
+  margin-top: 100px;
+}

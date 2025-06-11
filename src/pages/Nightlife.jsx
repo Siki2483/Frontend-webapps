@@ -89,7 +89,7 @@ function Nightlife() {
 
               {place.image && (
                 <img
-                  src={`https://backend-webapps.onrender.com${place.image}`}
+                  src={place.image}
                   alt={place.name}
                   className="nightlife-image"
                 />

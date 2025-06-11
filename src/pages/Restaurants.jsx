@@ -90,7 +90,7 @@ function Restaurants() {
 
               {rest.image && (
                 <img
-                  src={`https://backend-webapps.onrender.com${rest.image}`}
+                  src={rest.image}
                   alt={rest.name}
                   className="restaurant-image"
                 />

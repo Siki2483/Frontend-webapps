@@ -31,7 +31,7 @@ function Navbar() {
         <Link to="/lokacije">🌍 Locations</Link>
         <Link to="/restaurants">🍽 Restaurants</Link>
         <Link to="/nightlife">🎉 Nightlife</Link>
-        <Link to="/recommendednearyou">Recommended Near You</Link>
+        <Link to="/recommendednearyou">📍 Recommended Near You</Link>
       </div>
 
       <div className="navbar-right">

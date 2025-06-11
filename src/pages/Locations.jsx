@@ -88,7 +88,7 @@ function Locations() {
 
               {loc.image && (
                 <img
-                  src={`https://backend-webapps.onrender.com${loc.image}`}
+                  src={loc.image}
                   alt={loc.name}
                   className="location-image"
                 />
