@@ -21,7 +21,7 @@ function AddNightlife() {
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_BASE}/api/upload`, data);
       setFormData((prev) => ({ ...prev, image: res.data.imagePath }));
-      setPreview(`${process.env.REACT_APP_API_BASE}${res.data.imagePath}`);
+      setPreview(res.data.imagePath);
     } catch (err) {
       console.error("Upload error:", err.response?.data || err.message);
     }

@@ -60,9 +60,9 @@ function Nightlife() {
           <label>Filter by type:</label>
         <select onChange={(e) => setFilterType(e.target.value)} value={filterType}>
           <option value="all">All Types</option>
-          <option value="nightclub">Nightclub</option>
-          <option value="caffebar">Caffebar</option>
-          <option value="beachbar">Beachbar</option>
+          <option value="Nightclub">Nightclub</option>
+          <option value="Caffebar">Caffebar</option>
+          <option value="Beachbar">Beachbar</option>
         </select>
         </div>
 

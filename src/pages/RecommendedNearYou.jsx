@@ -17,30 +17,54 @@ const RecommendedNearYou = () => {
           const res = await axios.get(
             `/api/recommended/nearby?lat=${latitude}&lng=${longitude}`
           );
-          setLocations(res.data.locations);
-          setRestaurants(res.data.restaurants);
-          setNightlife(res.data.nightlife);
+          setLocations(res.data.locations || []);
+          setRestaurants(res.data.restaurants || []);
+          setNightlife(res.data.nightlife || []);
         } catch (err) {
-          console.error(err);
-          setError("Unable to fetch nearby places.");
+          console.error("Nearby fetch failed, loading popular content instead.");
+          loadFallback();
         }
       },
-      () => setError("Location access denied.")
+      (geoErr) => {
+        console.error("Geolocation error:", geoErr.message);
+        setError("Location unavailable.");
+        loadFallback();
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 10000,
+      }
     );
   }, []);
 
-  if (error) return <p className="error-message">{error}</p>;
-  if (!locations.length && !restaurants.length && !nightlife.length) {
-    return <p className="loading-message">Loading nearby recommendations...</p>;
+  const loadFallback = async () => {
+  try {
+    const [locRes, restRes, nightRes] = await Promise.all([
+      axios.get(`${process.env.REACT_APP_API_BASE}/api/locations`),
+      axios.get(`${process.env.REACT_APP_API_BASE}/api/restaurants`),
+      axios.get(`${process.env.REACT_APP_API_BASE}/api/nightlife`),
+    ]);
+    setLocations(locRes.data.slice(0, 3));
+    setRestaurants(restRes.data.slice(0, 3));
+    setNightlife(nightRes.data.slice(0, 3));
+    setError("Showing popular places instead.");
+  } catch (fallbackErr) {
+    console.error("Fallback fetch failed:", fallbackErr);
+    setError("Failed to load recommendations.");
   }
+};
 
   return (
     <div className="recommended-container">
-      <h2 className="recommended-title">📍 Recommended Near You</h2>
+      <h2 className="recommended-title">📍 Recommended Near You
+      </h2>
+      {error && <p className="error-message">{error}</p>}
 
-      {locations.length > 0 && (
+      {Array.isArray(locations) && locations.length > 0 && (
         <>
-          <h3 className="recommended-section-title">🌍 Locations</h3>
+          <h3 className="recommended-section-title">🌍 Locations
+          </h3>
           <div className="recommended-grid">
             {locations.map((loc) => (
               <div key={loc._id} className="recommended-card">
@@ -58,9 +82,10 @@ const RecommendedNearYou = () => {
         </>
       )}
 
-      {restaurants.length > 0 && (
+      {Array.isArray(restaurants) && restaurants.length > 0 && (
         <>
-          <h3 className="recommended-section-title">🍽 Restaurants</h3>
+          <h3 className="recommended-section-title">🍽 Restaurants
+          </h3>
           <div className="recommended-grid">
             {restaurants.map((res) => (
               <div key={res._id} className="recommended-card">
@@ -78,9 +103,10 @@ const RecommendedNearYou = () => {
         </>
       )}
 
-      {nightlife.length > 0 && (
+      {Array.isArray(nightlife) && nightlife.length > 0 && (
         <>
-          <h3 className="recommended-section-title">🎉 Nightlife</h3>
+          <h3 className="recommended-section-title">🎉 Nightlife
+          </h3>
           <div className="recommended-grid">
             {nightlife.map((nl) => (
               <div key={nl._id} className="recommended-card">

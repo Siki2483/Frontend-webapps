@@ -57,10 +57,10 @@ function Restaurants() {
           <label>Filter by type:</label>
           <select onChange={(e) => setFilterType(e.target.value)} value={filterType}>
             <option value="all">All Types</option>
-            <option value="pizza">Pizzeria</option>
-            <option value="bbq">BBQ</option>
-            <option value="seafood">Seafood</option>
-            <option value="burger">Burger</option>
+            <option value="Pizzeria">Pizzeria</option>
+            <option value="BBQ">BBQ</option>
+            <option value="Seafood">Seafood</option>
+            <option value="Burger">Burger</option>
             <option value="Konoba">Konoba</option>
             <option value="other">Other</option>
           </select>
